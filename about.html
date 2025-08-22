@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Introduction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Source+Code+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-light: #e0f7fa;
+      --secondary-light: #b2ebf2;
+      --accent-blue-light: #e1f5fe;
+      --accent-orange-light: #fff3e0;
+      --accent-purple-light: #f3e5f5;
+      --text-dark: #1a237e;
+      --text-medium: #283593;
+      --panel-bg: rgba(255, 255, 255, 0.92);
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --control-bg: rgba(245, 247, 255, 0.95);
+      --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --border-radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      color: var(--text-dark);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      line-height: 1.6;
+      scrollbar-width: thin;
+      scrollbar-color: #4ecdc4 rgba(240, 240, 255, 0.8);
+    }
+
+    html {
+      filter: brightness(100%);
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      background-color: #e8eaf6;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #80deea, #4dd0e1);
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .container {
+      max-width: 1200px;
+      height: 2000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+      padding-top: 70px;
+    }
+
+    .return-btn {
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: fixed;
+      display: flex;
+      z-index: 1000;
+      background: linear-gradient(90deg, #ffcc80, #ffb74d);
+      border-bottom-right-radius: 20px;
+      border-top-right-radius: 5px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      font-size: 1.2rem;
+      color: #fff;
+      transform-origin: top;
+      border: 0px solid rgba(2, 119, 189, 0.258);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 150px;
+      height: 50px;
+      justify-content: center;
+      align-items: center;
+      top: 0px;
+      left: 0px;
+    }
+
+    .return-btn:hover {
+      box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+      transform: scaleY(110%);
+    }
+
+    header {
+      text-align: center;
+      padding: 0px 0 20px;
+      margin-bottom: 40px;
+      position: relative;
+      background: linear-gradient(90deg, rgba(179, 229, 252, 0.7), rgba(129, 212, 250, 0.7));
+      border-radius: 15px;
+      box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+      top: -70px;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        rgba(255, 183, 77, 0.1) 0%, 
+        rgba(79, 195, 247, 0.1) 50%, 
+        rgba(129, 212, 250, 0.1) 100%);
+      z-index: 1;
+      border-radius: 15px;
+    }
+    
+    .title {
+      font-size: 4.2rem;
+      margin-bottom: 25px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: transparent;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #5b86e5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      color: var(--text-medium);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-weight: 300;
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-container {
+      display: flex;
+      flex-direction: column;
+      gap: 70px;
+      margin-bottom: 100px;
+      position: relative;
+      top: -70px;
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 50px;
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.08),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(50px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .section-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, 
+        rgba(77, 182, 255, 0.03) 0%, 
+        rgba(41, 182, 246, 0.03) 50%, 
+        rgba(3, 169, 244, 0.03) 100%);
+      z-index: -1;
+    }
+
+    .section-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(41, 182, 246, 0.2);
+    }
+
+    .section-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #4fc3f7;
+      min-width: 60px;
+    }
+
+    .section-title {
+      font-size: 2.4rem;
+      color: #29b6f6;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .content-area {
+      padding: 25px 0;
+      line-height: 1.8;
+      font-size: 1.15rem;
+      color: var(--text-medium);
+      min-height: 200px;
+    }
+
+    .content-area p {
+      margin-bottom: 25px;
+    }
+
+    .content-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .text-content {
+      flex: 1;
+    }
+
+    .image-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-content img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.5s ease;
+    }
+
+    .image-content img:hover {
+      transform: scale(1.03);
+    }
+
+    .layout-left .content-wrapper {
+      flex-direction: row;
+    }
+
+    .layout-right .content-wrapper {
+      flex-direction: row-reverse;
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, rgba(179, 229, 252, 0.4), rgba(187, 222, 251, 0.4));
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 500;
+      color: #0288d1;
+    }
+
+    .special-button {
+      display: flex;
+      justify-content: center;
+      margin: 80px 0 120px;
+    }
+
+    .return-portal-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 22px 55px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #29b6f6, #03a9f4);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 
+        0 8px 25px rgba(41, 182, 246, 0.3),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 1.2px;
+      z-index: 2;
+      top: -125px;
+    }
+
+    .return-portal-btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+      transform: rotate(45deg);
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    .return-portal-btn:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 
+        0 12px 30px rgba(41, 182, 246, 0.4),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+
+    .return-portal-btn:hover::before {
+      transform: rotate(45deg) translateX(100%);
+    }
+
+    .return-portal-btn i {
+      transition: transform 0.6s ease;
+    }
+
+    .return-portal-btn:hover i {
+      transform: translateX(8px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-medium);
+      font-size: 1rem;
+      border-top: 1px solid rgba(41, 182, 246, 0.2);
+      position: relative;
+      top: -220px;
+    }
+
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 20s infinite linear;
+      opacity: 0.1;
+      background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.1;
+      }
+      90% {
+        opacity: 0.1;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(20vw);
+        opacity: 0;
+      }
+    }
+
+    .glow-effect {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      opacity: 0.15;
+    }
+
+    .glow-1 {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, #81d4fa 0%, transparent 70%);
+      top: -150px;
+      right: -150px;
+    }
+
+    .glow-2 {
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, #80deea 0%, transparent 70%);
+      bottom: -200px;
+      left: -150px;
+    }
+
+    .glow-3 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #90caf9 0%, transparent 70%);
+      top: 40%;
+      left: 20%;
+    }
+
+    @media (max-width: 968px) {
+      .title {
+        font-size: 3.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.3rem;
+      }
+      
+      .section-card {
+        padding: 40px 30px;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .section-number {
+        font-size: 2.5rem;
+      }
+
+      .content-wrapper {
+        flex-direction: column !important;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .title {
+        font-size: 2.8rem;
+      }
+      
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .return-portal-btn {
+        padding: 18px 40px;
+        font-size: 1.4rem;
+      }
+      
+      .return-btn {
+        width: 120px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle background -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Glow effects -->
+  <div class="glow-effect glow-1"></div>
+  <div class="glow-effect glow-2"></div>
+  <div class="glow-effect glow-3"></div>
+  
+  <!-- Return Button -->
+  <button class="return-btn" onclick="window.location.href='!main.html'"><i class="fas fa-undo"></i></button>
+  
+  <div class="container">
+    <header>
+      <h1 class="title">PROJECT INTRODUCTION</h1>
+      <p class="subtitle">An overview of our vision, goals, and the journey to create this platform</p>
+    </header>
+    
+    <div class="intro-container">
+      <!-- Section 1: About this Website -->
+      <div class="section-card layout-left" id="section1">
+        <div class="section-header">
+          <div class="section-number">01</div>
+          <h2 class="section-title">About this Website</h2>
+        </div>
+        <div class="content-area">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p>This webside named AMT-Lab is because the core of the whole project is: <strong>Auralization, Music and Technology.</strong> I combined it together by this platform, so <strong>Auralization Music Technology</strong> - <strong>Laboratory AMT-Lab</strong> has created. </p>
+              <p>This webside is created in VSC Visual Studio Code, URL is created in Github.</p>
+              <p>Through this project, we can learn <strong>Math, Music</strong> and also <strong>Audio</strong> with <strong>Video (FFmpeg)</strong> by HIGH quality source. We can learn and pratice at the same time but not boring lessons or lecture, it's full of <strong>fun</strong> and <strong>creative</strong> that can create by ourselves!</p>
+            </div>
+            <div class="image-content">
+              <img src="https://images.unsplash.com/photo-1511376777868-611b54f68947?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="About this Website">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 2: Purpose/Goals -->
+      <div class="section-card layout-right" id="section2">
+        <div class="section-header">
+          <div class="section-number">02</div>
+          <h2 class="section-title">Purpose & Goals</h2>
+        </div>
+        <div class="content-area">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p>The primary purpose of this project is to create a platform that was <strong>easy and relax</strong> for anyone that starting to learn about <strong>Auralization theory</strong> with tools that was simple but useful. </p>
+              <p>Our goals include <strong>discover, experiment and pratical.</strong> Which corresponding to the three projects that I devoloped.</p>
+              <p>We also let this having a practical use, which is the most <strong>complicated</strong>, <strong>hard to develop</strong>, <strong>complex coding</strong> and math logic's third project ------ <strong>FFmuvisual.</strong></p>
+            </div>
+            <div class="image-content">
+              <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Purpose & Goals">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 3: Logic Behind -->
+      <div class="section-card layout-left" id="section3">
+        <div class="section-header">
+          <div class="section-number">03</div>
+          <h2 class="section-title">Logic Behind</h2>
+        </div>
+        <div class="content-area">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p>This webside has used massive technology for accomplish: <strong>Detailed Animation, Canvas, Math Database, WebAudio API, Safety Prevention.</strong></p>
+              <p>Each tool offers unique <strong>Comfort, </strong>Easy-to-Understand <strong>expressions, </strong>Precise <strong>Calculation</strong>, High Quality <strong>Audio Output</strong> and Prevent from <strong>Malicious Attacks.</strong></p>
+              <p>The reason why it is difficult to develop is that I need to allow users to use it immediately <strong>without any basic knowledge</strong>, so I need to design it to be <strong>easy to understand</strong> and <strong>clean</strong>.</p>
+            </div>
+            <div class="image-content">
+              <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Logic Behind">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 4: Features & Production -->
+      <div class="section-card layout-right" id="section4">
+        <div class="section-header">
+          <div class="section-number">04</div>
+          <h2 class="section-title">Features & Production</h2>
+        </div>
+        <div class="content-area">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p>This webside used five languages for developing, which is <strong>HTML, CSS, JS, JSON and WASM</strong></p>
+              <p>The most used language is both <strong>JS and CSS,</strong> because JS is for the <strong>main function and animation</strong> of all of my webside, especially my third project FFmuvisual. And the CSS is for the <strong>color, arrangement and assist the animation</strong> of JS.</p>
+              <p>The main feature of my webside: <strong>Sounalyzer</strong> - combine <strong>Sound and Analyzer</strong> , <strong>Wath</strong> - combine <strong>Math and Wave</strong> , <strong>FFmuvisual</strong> - combine <strong>FFmpeg and Music</strong> that represent by <strong>visualization Canvas.</strong></p>
+            </div>
+            <div class="image-content">
+              <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Features & Production">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 5: Challenges -->
+      <div class="section-card layout-left" id="section5">
+        <div class="section-header">
+          <div class="section-number">05</div>
+          <h2 class="section-title">Challenges Faced</h2>
+        </div>
+        <div class="content-area">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p>First issue: Slider Generates <strong>Useless Noises.</strong> When I was developing Wath, I find there will generate some <strong>Harsh and Loud</strong> sound. I fix it continuous for 3 hours, but still having no solution. Luckily, after checking numerous of articles, I found the issue called <strong>UnFull Cycling</strong> issue, means the sound wave <strong>isn't perfectly,</strong> equally and symmetry generate by the coding logic, when I fixed it, the whole function is perfect and well done.</p>
+              <p>Second issue: <strong>Cross-origin isolation.</strong> It is a safety policy that set by Google, it's critical problem is even though I has ensure the ffmpeg's JS and WASM is correct, it still can't load, and it will let the FFmuvisual <strong>can't export video.</strong> This issue is fatal but it's solution is very simple, which is letting the URL of the webside be <strong>"localhost" or "http" or "https",</strong> every problem about this issue made have been cracked when I use http URL.</p>
+              <p>Third issue, is also the most complex and severe issue: <strong>not recording the Canvas</strong> in the FFmuvisual properly. It seems like a easy problem right? But it is the hardest challenge in this whole webpage. I tried <strong>rewrite</strong> the drawing canvas function, but it <strong>doesn't solve</strong> any single problem, then I tried to <strong>troubleshoot the problem</strong> in the FFmpeg recording function, also <strong>failed.</strong> I once collapsed, asking me myself again and again, is it possible to do that? But I still not totally giving up, I found more and more articles that relates to this problem. Finally! After finding about 80+ times, I found the critical point, it is: let FFmpeg record three section, which is background, canvas and element. Then, <strong>running it in order:</strong> 1. Background , 2. Canvas , 3. Element, this is the order of their z-index. Last, ensure all of the <strong>JS file were working well</strong> in console. Then...., problem fixed! </p>
+            </div>
+            <div class="image-content">
+              <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Challenges Faced">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Special Button -->
+    <div class="special-button">
+      <button class="return-portal-btn" onclick="window.location.href='!main.html'">
+        Return to Main
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+    
+    <footer>
+      <span class="footer-highlight">About</span>
+      <span style="color:white;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span class="footer-highlight">The origin and theory of everything</span>
+      <p style="color: #9c9cff; font-style: italic; margin-top: 0px;">about.html &copy; 2025 Howwhy</p>
+    </footer>
+  </div>
+
+  <script>
+    // Create particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 100 + 30;
+        const posX = Math.random() * window.innerWidth;
+        const posY = Math.random() * window.innerHeight;
+        const animationDuration = Math.random() * 25 + 15;
+        const hue = Math.random() * 360;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}px`;
+        particle.style.top = `${posY}px`;
+        particle.style.animationDuration = `${animationDuration}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        particle.style.background = `hsla(${hue}, 60%, 75%, 0.1)`;
+        
+        container.appendChild(particle);
+      }
+    }
+    
+    // Intersection Observer for fade-in and fade-out effect
+    function setupIntersectionObserver() {
+      const sections = document.querySelectorAll('.section-card');
+      
+      const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.2
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          } else {
+            // Remove the visible class when element is out of view
+            entry.target.classList.remove('visible');
+          }
+        });
+      }, options);
+      
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    }
+    
+    // Initialize the application
+    function init() {
+      createParticles();
+      setupIntersectionObserver();
+    }
+
+    // Start when page loads
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
