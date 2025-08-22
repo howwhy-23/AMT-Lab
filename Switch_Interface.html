@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="author" content="Howwhy">
+  <meta name="copyright" content="Howwhy 2025">
+  <meta name="description" content="This project is made by Howwhy ONLY, not by anyone else. Content, Picture and Composition are all made by Howwhy. Used ChatGPT to fix logic and code errors. Used DeepSeek for harmonizing color.">
+  <title>Switch Interface</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #d4af37;       /* Gold primary */
+      --secondary: #ffd700;     /* Gold secondary */
+      --accent: #00ffff;        /* Cyan accent */
+      --dark: #0d0d17;          /* Deep blue background */
+      --light: #f8f9fa;         /* Light text */
+      --card-bg: rgba(25, 25, 35, 0.6);  /* Card background */
+      --glass-bg: rgba(255, 215, 0, 0.1); /* Glass background */
+      --glass-border: rgba(255, 215, 0, 0.2); /* Glass border */
+      --glass-border-light: rgba(255, 235, 123, 0.765);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, var(--dark), #1a1a2e);
+      color: var(--light);
+      overflow-x: hidden;
+      min-height: 100vh;
+      line-height: 1.6;
+      background-color: #f3f3ff;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(142, 45, 226, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(74, 0, 224, 0.1) 0%, transparent 20%);
+    }
+
+    header {
+      text-align: center;
+      padding: 0px 0px 0px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(to bottom, rgba(18, 18, 18, 0.9), rgba(26, 26, 46, 0.7));
+      margin-bottom: 35px;
+      border-bottom: 1px solid var(--glass-border);
+      transform: scaleY(0.95);
+      transform-origin: top;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      scale: 0.95;
+      position: relative;
+      top: 10px;
+    }
+
+    .logo-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      background: linear-gradient(to right, var(--secondary), var(--primary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #fff9c4;
+      max-width: 700px;
+      margin: 0 auto 25px;
+      font-weight: 300;
+      position: relative;
+      top: -15px;
+    }
+
+    .tagline {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 5px 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      border: 1px solid var(--primary);
+      font-size: 1rem;
+      color: #e0e0ff;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      position: relative;
+      top: -30px;
+      scale: 0.95;
+    }
+
+    .experiments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 15px;
+      width: 1300px;
+      max-height: 300px;
+      margin: 0 auto;
+      padding: 0 0px;
+      scale: 0.8;
+      position: relative;
+      top: -50px;
+    }
+
+    .experiment-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid var(--glass-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      position: relative;
+      transform: translateY(0);
+      display: flex;
+      flex-direction: column;
+      scale: 0.95;
+    }
+
+    .experiment-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(255, 215, 0, 0.25);
+      border-color: rgba(255, 215, 0, 0.3);
+    }
+
+    .card-header {
+      padding: 25px 25px 0px;
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid var(--glass-border-light);
+    }
+
+    .card-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 30px;
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .card-content {
+      padding: 0 25px 25px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: -20px;
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-desc {
+      color: #fff9c4;
+      margin-bottom: 40px;
+      flex-grow: 1;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      padding-top: 15px;
+    }
+
+    .card-footer {
+      padding: 0 25px 25px;
+    }
+
+    .launch-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #332200; /* Dark text for contrast */
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+      position: relative;
+      top: -10px;
+    }
+
+    .launch-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+    }
+
+    .launch-btn:active {
+      transform: translateY(1px);
+    }
+
+    .launch-btn i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .launch-btn::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0)
+      );
+      transform: rotate(30deg);
+      transition: transform 0.6s;
+    }
+
+    .launch-btn:hover::after {
+      transform: rotate(30deg) translate(20%, 20%);
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: -110px;
+      color: #162100; /* Gold light text */
+      font-size: 1rem;
+      height: 10px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 15px;
+    }
+
+    .footer-link {
+      color: #fff9c4; /* Gold light text */
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-link:hover {
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .experiments-grid {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .card-title {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* Animation for card entrance */
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .experiment-card {
+      animation: cardEntrance 0.6s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .blur {
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(255, 255, 255, 0.781), rgba(255, 255, 255, 0));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+      top: -50px;
+      z-index: -0;
+    }
+
+    main {
+      position: relative;
+      top: -50px;
+    }
+
+    .return-btn {
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: fixed;
+      display: flex;
+      z-index: 1000;
+      background: linear-gradient(90deg, #ffcc80, #ffb74d);
+      border-bottom-right-radius: 20px;
+      border-top-right-radius: 5px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      font-size: 1.2rem;
+      color: #fff;
+      transform-origin: top;
+      border: 0px solid rgba(2, 119, 189, 0.258);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 150px;
+      height: 50px;
+      transform: scaleY(1.05);
+      justify-content: center;
+      align-items: center;
+      top: 0px;
+      left: 0px;
+    }
+
+    .return-btn:hover {
+      box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+      transform: scaleY(110%);
+    }
+
+    /* Delay animations for each card */
+    .experiment-card:nth-child(1) { animation-delay: 0.1s; }
+    .experiment-card:nth-child(2) { animation-delay: 0.2s; }
+    .experiment-card:nth-child(3) { animation-delay: 0.3s; }
+    .experiment-card:nth-child(4) { animation-delay: 0.4s; }
+    .experiment-card:nth-child(5) { animation-delay: 0.5s; }
+    .experiment-card:nth-child(6) { animation-delay: 0.6s; }
+    .experiment-card:nth-child(7) { animation-delay: 0.7s; }
+    .experiment-card:nth-child(8) { animation-delay: 0.8s; }
+    .experiment-card:nth-child(9) { animation-delay: 0.9s; }
+    .experiment-card:nth-child(10) { animation-delay: 1.0s; }
+
+  </style>
+</head>
+<body>
+  <header>
+
+    <button class="return-btn" onclick="window.location.href='!main.html'"><i class="fas fa-undo"></i></button>
+
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-wave-square"></i>
+      </div>
+      <h1>Switch Interface</h1>
+    </div>
+    <p class="subtitle">Audio Music Technology Laboratory</p>
+    <div class="tagline">
+      The portal of getting started to explore the world of audio and music technology.
+    </div>
+  </header>
+  <div class="blur"></div>
+  <main>
+    <div class="experiments-grid">
+      <!-- Sounalyzer -->
+      <div class="experiment-card">
+        <div class="particles" id="particles-1"></div>
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fa-solid fa-file-waveform"></i>
+          </div>
+          <h3 class="card-title"><i class="fas fa-sliders-h"></i> Sounalyzer</h3>
+        </div>
+        <div class="card-content">
+          <p class="card-desc">Analyze audio in real-time: dB, hz, waveform, and spectrum with precision tools.</p>
+        </div>
+        <div class="card-footer">
+          <button class="launch-btn" data-target="Sounalyzer.html">
+            <i class="fas fa-rocket"></i> Launch Analyzer
+          </button>
+        </div>
+      </div>
+
+      <!-- Wath -->
+      <div class="experiment-card">
+        <div class="particles" id="particles-2"></div>
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-wave-square"></i>
+          </div>
+          <h3 class="card-title"><i class="fa-solid fa-subscript"></i> Wath</h3>
+        </div>
+        <div class="card-content">
+          <p class="card-desc">Experiment the law of math by the vision of music.</p>
+        </div>
+        <div class="card-footer">
+          <button class="launch-btn" data-target="Wath.html">
+            <i class="fas fa-rocket"></i> Launch Experiment
+          </button>
+        </div>
+      </div>
+
+      <!-- FFmuvisual -->
+      <div class="experiment-card">
+        <div class="particles" id="particles-5"></div>
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fa fa-align-left fa-rotate-270"></i>
+          </div>
+          <h3 class="card-title"><i class="fas fa-music"></i> FFmuvisual</h3>
+        </div>
+        <div class="card-content">
+          <p class="card-desc">Create your own high quality video and DIY with massive function.</p>
+        </div>
+        <div class="card-footer">
+          <button class="launch-btn" data-target="http://localhost:5500/FFmuvisual.html">
+            <i class="fas fa-rocket"></i> Launch Editor
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p style="font-style: italic;">AMT-Lab &copy; 2025 | Audio Music Technology Laboratory</p>
+  </footer>
+
+  <script>
+    // Function to create particles
+    function createParticles(containerId, count = 15) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random position
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        
+        // Random size
+        const size = Math.random() * 3 + 1;
+        
+        // Random animation
+        const duration = Math.random() * 5 + 5;
+        const delay = Math.random() * 5;
+        
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        
+        // Gold and cyan colors
+        const colors = [
+          'rgba(255, 215, 0, 0.7)',   // Gold
+          'rgba(212, 175, 55, 0.7)',   // Dark gold
+          'rgba(0, 255, 255, 0.7)',    // Cyan
+          'rgba(255, 107, 107, 0.7)'   // Accent
+        ];
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        container.appendChild(particle);
+      }
+      
+      // Add CSS for floating animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes float {
+          0%, 100% { 
+          transform: translate(0, 0); opacity: 0; 
+          }
+
+          50% { 
+          transform: translate(10px, -10px); opacity: 0.8; 
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    // Create particles for all cards
+    for (let i = 1; i <= 10; i++) {
+      createParticles(`particles-${i}`);
+    }
+    
+    // Launch button functionality
+    document.querySelectorAll('.launch-btn').forEach(button => {
+      button.addEventListener('click', function(e) {
+        const target = this.getAttribute('data-target');
+        
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        this.appendChild(ripple);
+        
+        // Get click position
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Position ripple
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        // Remove ripple after animation
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+        
+        // Create musical note effect
+        const note = document.createElement('i');
+        note.classList.add('fas', 'fa-music', 'music-note');
+        note.style.position = 'fixed';
+        note.style.left = `${e.clientX}px`;
+        note.style.top = `${e.clientY}px`;
+        note.style.fontSize = '24px';
+        note.style.color = '#ffd700'; // Gold color
+        note.style.zIndex = '1000';
+        note.style.pointerEvents = 'none';
+        note.style.opacity = '1';
+        note.style.transform = 'translate(-50%, -50%) scale(1)';
+        document.body.appendChild(note);
+        
+        // Animate note
+        setTimeout(() => {
+          note.style.transition = 'all 0.8s ease-out';
+          note.style.opacity = '0';
+          note.style.transform = 'translate(-50%, -150%) scale(2)';
+        }, 10);
+        
+        // Remove note after animation
+        setTimeout(() => {
+          note.remove();
+        }, 800);
+        
+        // Open target after animation
+        setTimeout(() => {
+          if (target) {
+            window.open(target, '_blank');
+          }
+        }, 300);
+      });
+    });
+    
+    // Add ripple effect style
+    const rippleStyle = document.createElement('style');
+    rippleStyle.textContent = `
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+      }
+      
+      @keyframes ripple {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(rippleStyle);
+  </script>
+</body>
+</html>
