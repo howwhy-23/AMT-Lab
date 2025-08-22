@@ -3290,12 +3290,12 @@
                         window.SharedArrayBuffer = ArrayBuffer;
                     }
                     
-                    const { createFFmpeg, fetchFile } = FFmpeg;
-
-                    const ffmpeg = createFFmpeg({
+                    ffmpeg = createFFmpeg({
                         log: true,
-                        corePath: 'https://unpkg.com/@ffmpeg/core-st@0.10.0/dist/ffmpeg-core.js',
-                        mainName: 'main',
+                        corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
+                        mainName: 'main', // Disable multithreading
+                        workerName: 'ffmpeg-worker.js',
+                        wasmPath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.wasm'
                     });
                     
                     await ffmpeg.load();
