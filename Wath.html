@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wath</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.5.0/math.min.js"></script>
+    <style>
+        :root {
+            --dark-bg: #0c0d18;
+            --card-bg: rgba(20, 21, 36, 0.95);
+            --gold-primary: #ffd700;
+            --gold-secondary: #d4af37;
+            --gold-light: #fff9c4;
+            --cyan-accent: #00ffff;
+            --cyan-light: #e0ffff;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --border-gold: rgba(255, 215, 0, 0.4);
+            --border-cyan: rgba(0, 255, 255, 0.4);
+            --grid-color: rgba(100, 100, 100, 0.25);
+            --success-color: #00e676;
+            --danger-color: #ff5252;
+            --purple-accent: #9c27b0;
+            --slider: #ba9e00aa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0d0d17 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr auto;
+            grid-template-areas: 
+                "header"
+                "content"
+                "footer";
+            gap: 30px;
+        }
+
+        header {
+            grid-area: header;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(30, 30, 40, 0.8), rgba(40, 40, 60, 0.8));
+            border-radius: 18px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+            border: 2px solid var(--border-gold);
+            position: relative;
+            overflow: hidden;
+            animation: glow 3s infinite alternate;
+            padding: 30px;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+            }
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), var(--cyan-accent), transparent);
+            animation: slide 3s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--cyan-accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.25);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--gold-light);
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-weight: 400;
+            font-style: normal;
+            opacity: 0.9;
+        }
+
+        .content-area {
+            grid-area: content;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, var(--card-bg), rgba(15, 16, 30, 0.95));
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--border-gold);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+        }
+
+        .card::before, .card::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+        }
+
+        .card::before {
+            top: 15px;
+            left: 15px;
+            border-top: 2px solid var(--cyan-accent);
+            border-left: 2px solid var(--cyan-accent);
+        }
+
+        .card::after {
+            bottom: 15px;
+            right: 15px;
+            border-bottom: 2px solid var(--gold-primary);
+            border-right: 2px solid var(--gold-primary);
+        }
+
+        .card-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--gold-primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), var(--cyan-accent), transparent);
+            border-radius: 2px;
+        }
+
+        .input-group {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--gold-light);
+            min-width: 160px;
+            font-size: 1.15rem;
+        }
+
+        .slider-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--slider);
+            border-radius: 5px;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--gold-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+            border: 2px solid #332200;
+            transition: transform 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: var(--cyan-accent);
+        }
+
+        .value-display {
+            width: 150px;
+            text-align: center;
+            background: rgba(70, 60, 0, 0.4);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            color: var(--gold-primary);
+            border: 1px solid var(--border-gold);
+            font-size: 1.1rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 16px 35px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #332200;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 220px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            flex: 1;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+            transition: all 0.5s;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #ff5252, #d32f2f);
+            color: white;
+        }
+
+        .btn-stop:hover {
+            background: linear-gradient(135deg, #ff7070, #e05050);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 80, 80, 0.5);
+        }
+
+        .play-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 200, 200, 0.2);
+            border-radius: 12px;
+            padding: 8px 16px;
+            margin-top: 15px;
+            border: 1px solid var(--cyan-accent);
+            transition: opacity 0.3s ease;
+        }
+
+        .play-status.playing {
+            background: rgba(0, 200, 200, 0.4);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .play-status-text {
+            font-weight: bold;
+            color: var(--cyan-accent);
+            margin-right: 10px;
+        }
+
+        .play-status-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--success-color);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.7; }
+        }
+
+        .play-status.stopped .play-status-dot {
+            background-color: var(--danger-color);
+            animation: none;
+            opacity: 0.7;
+        }
+
+        footer {
+            grid-area: footer;
+            text-align: center;
+            padding: 20px;
+            color: var(--gold-light);
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .footer-highlight {
+            color: var(--cyan-accent);
+            font-weight: 500;
+        }
+
+        .control-group { 
+            display: flex; 
+            justify-content: space-between; 
+            margin: 12px 0;
+            align-items: center;
+        }
+
+        select, .checkbox-label {
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: #1c1c22;
+            color: var(--text-primary);
+            border: 1px solid #2f2f3a;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .note-display {
+            display: inline-block;
+            margin-left: 15px;
+            padding: 5px 5px;
+            background: rgba(70, 60, 0, 0.4);
+            border-radius: 8px;
+            color: var(--cyan-accent);
+            font-weight: bold;
+            border: 1px solid var(--border-cyan);
+            width: 50px;
+        }
+
+        .hint {
+            margin-top: 12px;
+            font-size: 12px;
+            opacity: .7;
+            color: var(--gold-light);
+        }
+
+        #waveform-canvas {
+            width: 100%;
+            height: 300px;
+            background: rgba(15, 15, 25, 0.6);
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 1px solid var(--border-gold);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(70, 60, 0, 0.4), rgba(50, 40, 0, 0.4));
+            border-left: 5px solid var(--gold-primary);
+            padding: 10px 30px 10px;
+            margin-top: 20px;
+            border-radius: 0 12px 12px 0;
+            border: 1px solid var(--gold-primary);
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-title {
+            font-weight: bold;
+            color: var(--gold-primary);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box p {
+            margin: 10px 0;
+            padding-left: 5px;
+            position: relative;
+        }
+
+        .info-box p::before {
+            content: '•';
+            position: absolute;
+            left: -15px;
+            color: var(--gold-primary);
+        }
+
+        /* Waveform selection button group */
+        .wave-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .wave-btn {
+            flex: 1;
+            padding: 12px 5px;
+            background: rgba(30, 30, 45, 0.7);
+            border: 2px solid var(--border-gold);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .wave-btn i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .wave-btn:hover {
+            background: rgba(50, 50, 70, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .wave-btn.active {
+            background: linear-gradient(135deg, var(--gold-primary), var(--cyan-accent));
+            color: #332200;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #3c3c44; /* Brighter background */
+            border: 1px solid #4f4f5a; /* Brighter border */
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 3px;
+            background-color: var(--text-secondary);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background: linear-gradient(135deg, var(--gold-primary), var(--cyan-accent));
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(28px);
+            background-color: #332200;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        /* Validation error message */
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Waveform formula display */
+        .waveform-formula {
+            background: rgba(70, 60, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid var(--border-gold);
+            font-family: 'Courier New', monospace;
+            color: var(--cyan-accent);
+            font-size: 0.9rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .return-btn {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: fixed;
+            display: flex;
+            z-index: 1000;
+            background: linear-gradient(90deg, #eaa338, #f8e240);
+            border-bottom-right-radius: 20px;
+            border-top-right-radius: 5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            font-size: 1.2rem;
+            color: #fff !important;
+            transform-origin: top;
+            border: 0px solid rgba(2, 119, 189, 0.258);
+            font-family: 'Exo 2', sans-serif;
+            width: 150px;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+            top: 0px;
+            left: 0px;
+        }
+
+            .return-btn:hover {
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+            transform: scaleY(110%);
+        }
+
+        @media (max-width: 1024px) {
+            .content-area {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 25px 15px;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .wave-btn-group {
+                flex-wrap: wrap;
+            }
+            
+            .wave-btn {
+                flex: 1 0 45%;
+            }
+            
+            .waveform-formula {
+                font-size: 0.8rem;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .card-title {
+                font-size: 1.8rem;
+            }
+
+            .wave-btn {
+                flex: 1 0 100%;
+            }
+            
+            .waveform-formula {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Math? Wave? Wath!</h1>
+            <p class="subtitle">Combine Math & Audio together, present MATH with WAVE</p>
+        </header>
+
+        <button class="return-btn" onclick="window.location.href='Switch_Interface.html'"><i class="fas fa-undo"></i></button>
+        
+        <div class="content-area">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Frequency Control</span>
+                </div>
+                
+                <div class="wave-btn-group">
+                    <div class="wave-btn active" data-wave="sine">
+                        <span>Sine</span>
+                    </div>
+                    <div class="wave-btn" data-wave="square">
+                        <span>Square</span>
+                    </div>
+                    <div class="wave-btn" data-wave="sawtooth">
+                        <span>Sawtooth</span>
+                    </div>
+                    <div class="wave-btn" data-wave="triangle">
+                        <span>Triangle</span>
+                    </div>
+                </div>
+
+                <div class="waveform-formula" id="waveform-formula">
+                    y = Math.sin(x);
+                </div>
+                
+                <div class="control-group">
+                    <label class="toggle-label">
+                        <span>Logarithmic Scale</span>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="logScale">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="input-group">
+                    <label for="frequency"><strong>Frequency (Hz):</strong></label>
+                    <div class="slider-container">
+                        <input type="range" id="frequency" min="20" max="20000" value="440" step="1">
+                        <span class="value-display" id="frequency-value">440.0</span>
+                        <span class="note-display" id="note-display">A4</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="volume"><strong>Volume (dB):</strong></label>
+                    <div class="slider-container">
+                        <input type="range" id="volume" min="-60" max="0" value="-30" step="0.1">
+                        <span class="value-display" id="volume-value">-30.0 dB</span>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="playWaveform()" id="play-button">
+                        <i class="fas fa-play"></i>
+                        <span>Play Tone</span>
+                    </button>
+                    <button class="btn btn-stop" onclick="stopPlayback()">
+                        <i class="fas fa-stop"></i>
+                        <span>Stop Playback</span>
+                    </button>
+                </div>
+                
+                <div class="play-status stopped" id="play-status">
+                    <span class="play-status-text">Not Playing</span>
+                    <div class="play-status-dot"></div>
+                </div>
+                
+                <div class="hint">If there's no sound initially, the browser may have suspended audio -> click again to resume, and don't forget to turn up volume.</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-wave-square"></i>
+                    <span>Waveform Visualization</span>
+                </div>
+                
+                <canvas id="waveform-canvas"></canvas>
+                
+                <div class="info-box">
+                    <div class="info-title">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Instructions:</span>
+                    </div>
+                    <p>Select a waveform type from the buttons above to see its mathematical formula</p>
+                    <p>Use logarithmic scale for more precise low-frequency control</p>
+                    <p>Adjust frequency and volume to explore sound characteristics</p>
+                    <p>The visualization shows the wave with hz and dB ratio</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <span class="footer-highlight">Math.js</span>
+            <span style="color:white;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span class="footer-highlight">For your ear safety, please don't set the volume too high</span>
+            <p style="color: #9c9cff; font-style: italic; margin-top: 0px;">Wath.html &copy; 2025 Howwhy</p>
+        </footer>
+    </div>
+
+    <script>
+        // Global variables
+        let audioCtx = null;
+        let oscillator = null;
+        let gainNode = null;
+        let isPlaying = false;
+        let useLogScale = false;
+        let canvas, ctx;
+        let currentWaveform = 'sine';
+        let animationFrameId = null;
+        let lastValidFrequency = 440;
+        let lastValidVolume = -30;
+        let lastValidPitch = 'A4';
+
+        // Waveform formulas
+        const waveformFormulas = {
+            sine: "y = Math.sin(x);",
+            square: "y = Math.sign(Math.sin(x));",
+            sawtooth: "y = (x / (2 * Math.PI) - Math.floor(0.5 + x / (2 * Math.PI)));",
+            triangle: "y = 2 * Math.abs(2 * (x / (2 * Math.PI) - Math.floor(x / (2 * Math.PI) + 0.5))) - 1;"
+        };
+
+        // DOM elements
+        const frequencySlider = document.getElementById('frequency');
+        const frequencyValue = document.getElementById('frequency-value');
+        const volumeSlider = document.getElementById('volume');
+        const volumeValue = document.getElementById('volume-value');
+        const logScaleCheckbox = document.getElementById('logScale');
+        const noteDisplay = document.getElementById('note-display');
+        const playStatus = document.getElementById('play-status');
+        const waveButtons = document.querySelectorAll('.wave-btn');
+        const waveformFormulaDisplay = document.getElementById('waveform-formula');
+
+        // Initialize canvas
+        function initCanvas() {
+            canvas = document.getElementById('waveform-canvas');
+            ctx = canvas.getContext('2d');
+            
+            // Set canvas dimensions
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            // Draw initial waveform
+            drawWaveform(currentWaveform, 440, dbToLinear(-30));
+        }
+
+        // Draw waveform on canvas
+        function drawWaveform(type, frequency, gain) {
+            if (!ctx) return;
+            
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerY = height / 2;
+            const baseAmplitude = height / 3;
+            const amplitude = baseAmplitude * gain; // Apply gain to amplitude
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(100, 100, 100, 0.2)';
+            ctx.lineWidth = 1;
+            
+            // Horizontal grid lines
+            for (let y = centerY - baseAmplitude; y <= centerY + baseAmplitude; y += baseAmplitude / 2) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+            
+            // Vertical grid lines
+            for (let x = 0; x <= width; x += width / 10) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            
+            // Draw waveform
+            ctx.beginPath();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#ffd700';
+            
+            // Dynamic cycle adjustment - higher frequencies have more cycles
+            // Use logarithmic scaling for more natural changes
+            const minCycles = 1;
+            const maxCycles = 20;
+            const cycles = Math.max(minCycles, Math.min(maxCycles, 
+                               minCycles + (Math.log10(frequency / 20) / Math.log10(20000 / 20)) * (maxCycles - minCycles)));
+            
+            for (let x = 0; x < width; x++) {
+                const percent = x / width;
+                const angle = percent * Math.PI * 2 * cycles;
+                let y;
+                
+                switch (type) {
+                    case 'sine':
+                        y = centerY + Math.sin(angle) * amplitude;
+                        break;
+                    case 'square':
+                        y = centerY + (Math.sin(angle) >= 0 ? 1 : -1) * amplitude;
+                        break;
+                    case 'sawtooth':
+                        y = centerY + (1 - (angle % (Math.PI * 2)) / (Math.PI * 2) * 2) * amplitude;
+                        break;
+                    case 'triangle':
+                        y = centerY + (Math.asin(Math.sin(angle)) / (Math.PI / 2)) * amplitude;
+                        break;
+                    default:
+                        y = centerY + Math.sin(angle) * amplitude;
+                }
+                
+                if (x === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            
+            ctx.stroke();
+        }
+
+        // Convert frequency to note name
+        function frequencyToNote(frequency) {
+            const A4 = 440;
+            const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+            
+            if (frequency < 20) return "Below hearing";
+            
+            // Calculate MIDI note number
+            const noteNum = 12 * (Math.log2(frequency / A4)) + 69;
+            const noteIndex = Math.round(noteNum) % 12;
+            const octave = Math.floor(noteNum / 12) - 1;
+            
+            return noteNames[noteIndex] + octave;
+        }
+
+        // Convert dB to linear gain (0-1)
+        function dbToLinear(db) {
+            const minDb = -60;
+            if (db <= minDb) return 0.0001;
+            return Math.pow(10, db / 20);
+        }
+
+        // Convert frequency to logarithmic position (20-20000Hz)
+        function freqToLogPosition(freq) {
+            const minFreq = 20;
+            const maxFreq = 20000;
+            const minPos = 0;
+            const maxPos = 10000;
+            
+            // Logarithmic scaling
+            const logMin = Math.log10(minFreq);
+            const logMax = Math.log10(maxFreq);
+            const logFreq = Math.log10(freq);
+            
+            return ((logFreq - logMin) / (logMax - logMin)) * (maxPos - minPos);
+        }
+
+        // Convert logarithmic position to frequency
+        function logPositionToFreq(position) {
+            const minFreq = 20;
+            const maxFreq = 20000;
+            const minPos = 0;
+            const maxPos = 10000;
+            
+            const logMin = Math.log10(minFreq);
+            const logMax = Math.log10(maxFreq);
+            
+            const logFreq = ((position - minPos) / (maxPos - minPos)) * (logMax - logMin) + logMin;
+            return Math.pow(10, logFreq);
+        }
+
+        // Update slider for logarithmic scale
+        function updateSliderForLogScale() {
+            if (useLogScale) {
+                // Store the current frequency
+                const currentFreq = parseFloat(frequencySlider.value);
+                // Change slider properties for logarithmic scale
+                frequencySlider.min = 0;
+                frequencySlider.max = 10000;
+                frequencySlider.step = 1;
+                // Set the slider position based on frequency
+                frequencySlider.value = freqToLogPosition(currentFreq);
+            } else {
+                // Store the current frequency
+                const currentFreq = useLogScale ? 
+                  logPositionToFreq(parseFloat(frequencySlider.value)) : 
+                  parseFloat(frequencySlider.value);
+                
+                // Change slider properties back to linear
+                frequencySlider.min = 20;
+                frequencySlider.max = 20000;
+                frequencySlider.step = 1;
+                // Set the slider value to the frequency (clamped to range)
+                frequencySlider.value = Math.max(20, Math.min(20000, Math.round(currentFreq)));
+            }
+            updateFrequencyDisplay();
+        }
+
+        // Update frequency display
+        function updateFrequencyDisplay() {
+            let frequency;
+            if (useLogScale) {
+                frequency = logPositionToFreq(parseFloat(frequencySlider.value));
+                frequencyValue.textContent = Math.round(frequency);
+            } else {
+                frequency = parseFloat(frequencySlider.value);
+                frequencyValue.textContent = frequency;
+            }
+            
+            // Update note display
+            noteDisplay.textContent = frequencyToNote(frequency);
+            
+            // Update oscillator frequency if playing
+            if (isPlaying && oscillator) {
+                oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+            }
+            
+            // Update waveform visualization
+            const volume = parseFloat(volumeSlider.value);
+            const linearVolume = dbToLinear(volume);
+            drawWaveform(currentWaveform, frequency, linearVolume);
+            
+            // Store last valid frequency
+            lastValidFrequency = frequency;
+        }
+
+        // Update volume display
+        function updateVolumeDisplay() {
+            const volume = parseFloat(volumeSlider.value);
+            volumeValue.textContent = volume.toFixed(1) + ' dB';
+            
+            // Update gain if playing
+            if (isPlaying && gainNode) {
+                const linearVolume = dbToLinear(volume);
+                gainNode.gain.setValueAtTime(linearVolume, audioCtx.currentTime);
+            }
+            
+            // Update waveform visualization
+            let frequency;
+            if (useLogScale) {
+                frequency = logPositionToFreq(parseFloat(frequencySlider.value));
+            } else {
+                frequency = parseFloat(frequencySlider.value);
+            }
+            const linearVolume = dbToLinear(volume);
+            drawWaveform(currentWaveform, frequency, linearVolume);
+            
+            // Store last valid volume
+            lastValidVolume = volume;
+        }
+
+        // Update play status UI
+        function updatePlayStatus(playing) {
+            if (playing) {
+                playStatus.classList.remove('stopped');
+                playStatus.classList.add('playing');
+                playStatus.querySelector('.play-status-text').textContent = 'Playing Audio';
+            } else {
+                playStatus.classList.remove('playing');
+                playStatus.classList.add('stopped');
+                playStatus.querySelector('.play-status-text').textContent = 'Not Playing';
+            }
+        }
+
+        // Play waveform
+        function playWaveform() {
+            if (!audioCtx) {
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    alert("Failed to create audio context: " + e.message);
+                    return;
+                }
+            }
+
+            // Resume audio context if suspended
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            // Stop any existing playback
+            stopPlayback();
+
+            // Get current values
+            let frequency;
+            if (useLogScale) {
+                frequency = logPositionToFreq(parseFloat(frequencySlider.value));
+            } else {
+                frequency = parseFloat(frequencySlider.value);
+            }
+            
+            const volume = parseFloat(volumeSlider.value);
+            const waveform = currentWaveform;
+
+            // Create oscillator and gain nodes
+            oscillator = audioCtx.createOscillator();
+            gainNode = audioCtx.createGain();
+
+            // Configure oscillator
+            oscillator.type = waveform;
+            oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+
+            // Configure gain
+            const linearVolume = dbToLinear(volume);
+            gainNode.gain.setValueAtTime(linearVolume, audioCtx.currentTime);
+
+            // Connect nodes
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            // Start oscillator
+            oscillator.start();
+            isPlaying = true;
+            updatePlayStatus(true);
+        }
+
+        // Stop playback
+        function stopPlayback() {
+            if (oscillator) {
+                try {
+                    oscillator.stop();
+                    oscillator.disconnect();
+                } catch (e) {
+                    console.warn("Error stopping oscillator:", e);
+                }
+                oscillator = null;
+            }
+            
+            if (gainNode) {
+                gainNode.disconnect();
+                gainNode = null;
+            }
+            
+            isPlaying = false;
+            updatePlayStatus(false);
+        }
+
+        // Update waveform formula display
+        function updateWaveformFormula(waveform) {
+            waveformFormulaDisplay.textContent = waveformFormulas[waveform];
+        }
+
+        // Initialize the application
+        function init() {
+            // Initialize display values
+            updateFrequencyDisplay();
+            updateVolumeDisplay();
+            
+            // Initialize canvas
+            initCanvas();
+            
+            // Add event listeners
+            frequencySlider.addEventListener('input', updateFrequencyDisplay);
+            volumeSlider.addEventListener('input', updateVolumeDisplay);
+            
+            logScaleCheckbox.addEventListener('change', function() {
+                useLogScale = this.checked;
+                updateSliderForLogScale();
+            });
+            
+            // Waveform button event listeners
+            waveButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    waveButtons.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    // Update current waveform
+                    currentWaveform = this.getAttribute('data-wave');
+                    
+                    // Update oscillator if playing
+                    if (isPlaying && oscillator) {
+                        oscillator.type = currentWaveform;
+                    }
+                    
+                    // Update waveform formula display
+                    updateWaveformFormula(currentWaveform);
+                    
+                    // Update waveform visualization
+                    let frequency;
+                    if (useLogScale) {
+                        frequency = logPositionToFreq(parseFloat(frequencySlider.value));
+                    } else {
+                        frequency = parseFloat(frequencySlider.value);
+                    }
+                    const volume = parseFloat(volumeSlider.value);
+                    const linearVolume = dbToLinear(volume);
+                    drawWaveform(currentWaveform, frequency, linearVolume);
+                });
+            });
+            
+            // Make frequency and volume displays editable
+            frequencyValue.addEventListener('dblclick', function() {
+                this.contentEditable = true;
+                this.focus();
+            });
+            
+            frequencyValue.addEventListener('blur', function() {
+                this.contentEditable = false;
+                processFrequencyInput();
+            });
+            
+            frequencyValue.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    this.contentEditable = false;
+                    processFrequencyInput();
+                }
+            });
+            
+            volumeValue.addEventListener('dblclick', function() {
+                this.contentEditable = true;
+                this.focus();
+            });
+            
+            volumeValue.addEventListener('blur', function() {
+                this.contentEditable = false;
+                processVolumeInput();
+            });
+            
+            volumeValue.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    this.contentEditable = false;
+                    processVolumeInput();
+                }
+            });
+            
+            // Handle page visibility changes
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden && isPlaying) {
+                    // Page is hidden, stop playback
+                    stopPlayback();
+                }
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                // Update canvas dimensions
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                
+                // Redraw waveform with current settings
+                let frequency;
+                if (useLogScale) {
+                    frequency = logPositionToFreq(parseFloat(frequencySlider.value));
+                } else {
+                    frequency = parseFloat(frequencySlider.value);
+                }
+                const volume = parseFloat(volumeSlider.value);
+                const linearVolume = dbToLinear(volume);
+                drawWaveform(currentWaveform, frequency, linearVolume);
+            });
+        }
+
+        // Validate and process frequency input
+        function processFrequencyInput() {
+            const input = frequencyValue.textContent.trim();
+            
+            // Check if input contains only numbers (with optional hz/HZ suffix)
+            const numMatch = input.match(/^(\d+(?:\.\d+)?)\s*(?:hz|HZ)?$/i);
+            if (numMatch) {
+                const freq = parseFloat(numMatch[1]);
+                if (freq >= 20 && freq <= 20000) {
+                    if (useLogScale) {
+                        frequencySlider.value = freqToLogPosition(freq);
+                    } else {
+                        frequencySlider.value = freq;
+                    }
+                    updateFrequencyDisplay();
+                    return;
+                }
+            }
+            
+            // Check for pitch notation (e.g., A4, C#5, Db3)
+            const pitchMatch = input.match(/^([A-Ga-g](?:#|b)?)(-?\d+)$/);
+            if (pitchMatch) {
+                const note = pitchMatch[1].toUpperCase();
+                const octave = parseInt(pitchMatch[2]);
+                
+                // Map note to frequency using equal temperament
+                const noteIndex = {
+                    'C': 0, 'C#': 1, 'DB': 1, 'D': 2, 'D#': 3, 'EB': 3,
+                    'E': 4, 'F': 5, 'F#': 6, 'GB': 6, 'G': 7, 'G#': 8,
+                    'AB': 8, 'A': 9, 'A#': 10, 'BB': 10, 'B': 11
+                }[note];
+                
+                if (noteIndex !== undefined && octave >= 0 && octave <= 12) {
+                    // Calculate frequency using formula: f = 440 * 2^((n-69)/12)
+                    // Where A4 (440Hz) is note 69 in MIDI notation
+                    const midiNote = 12 * (octave + 1) + noteIndex;
+                    const freq = 440 * Math.pow(2, (midiNote - 69) / 12);
+                    
+                    if (freq >= 20 && freq <= 20000) {
+                        if (useLogScale) {
+                            frequencySlider.value = freqToLogPosition(freq);
+                        } else {
+                            frequencySlider.value = freq;
+                        }
+                        updateFrequencyDisplay();
+                        return;
+                    }
+                }
+            }
+            
+            // If input is invalid, revert to last valid value
+            if (useLogScale) {
+                frequencySlider.value = freqToLogPosition(lastValidFrequency);
+            } else {
+                frequencySlider.value = lastValidFrequency;
+            }
+            updateFrequencyDisplay();
+        }
+
+        // Validate and process volume input
+        function processVolumeInput() {
+            const input = volumeValue.textContent.trim();
+            
+            // Check if input contains a number with optional dB/db/DB suffix
+            const match = input.match(/^(-?\d+(?:\.\d+)?)\s*(?:dB|db|DB)?$/i);
+            if (match) {
+                const vol = parseFloat(match[1]);
+                if (vol >= -60 && vol <= 0) {
+                    volumeSlider.value = vol;
+                    updateVolumeDisplay();
+                    return;
+                }
+            }
+            
+            // If input is invalid, revert to last valid value
+            volumeSlider.value = lastValidVolume;
+            updateVolumeDisplay();
+        }
+
+        // Start when page loads
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
